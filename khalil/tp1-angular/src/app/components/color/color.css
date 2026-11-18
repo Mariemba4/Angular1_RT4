@@ -1,0 +1,8 @@
+.color-box {
+  height: 150px;
+  margin-bottom: 10px;
+  border: 2px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

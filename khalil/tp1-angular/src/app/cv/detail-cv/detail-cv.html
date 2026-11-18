@@ -1,0 +1,18 @@
+<div class="card text-center">
+  <div class="card-header bg-primary py-4">
+    <img
+      [ngSrc]="cv().path"
+      width="100"
+      height="100"
+      class="rounded-circle border border-3 border-white"
+      alt=""
+    />
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{ cv().firstname }} {{ cv().name }}</h5>
+    <p class="text-muted">{{ cv().job }}</p>
+    <p class="card-text">Age : {{ cv().age }} ans</p>
+    <p class="card-text">CIN : {{ cv().cin }}</p>
+    <button type="button" class="btn btn-primary" (click)="embaucher()">Embaucher</button>
+  </div>
+</div>

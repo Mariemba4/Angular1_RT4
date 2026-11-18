@@ -1,0 +1,28 @@
+<p [style]="{ color: color(), fontSize: size() + 'px', fontFamily: font() }">Test</p>
+
+<div class="row">
+  <div class="col">
+    <input
+      [(ngModel)]="color"
+      type="color"
+      class="form-control form-control-color w-100"
+      aria-label="Couleur du texte"
+    />
+  </div>
+  <div class="col">
+    <input
+      [(ngModel)]="size"
+      type="number"
+      min="1"
+      class="form-control"
+      aria-label="Taille du texte"
+    />
+  </div>
+  <div class="col">
+    <select [(ngModel)]="font" class="form-select" aria-label="Police du texte">
+      @for (f of fonts; track f) {
+        <option [value]="f">{{ f }}</option>
+      }
+    </select>
+  </div>
+</div>

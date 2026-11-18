@@ -1,0 +1,24 @@
+<label class="form-label w-100">
+  Name :
+  <input [(ngModel)]="name" type="text" class="form-control" />
+</label>
+<label class="form-label w-100">
+  Content :
+  <input [(ngModel)]="content" type="text" class="form-control" />
+</label>
+<button (click)="addTodo()" class="btn btn-primary mb-3">Add Todo</button>
+
+<ul class="list-group">
+  @for (todo of todos(); track todo) {
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <span>{{ todo.name }} : {{ todo.content }}</span>
+      <button
+        (click)="deleteTodo(todo)"
+        class="btn btn-sm btn-outline-danger"
+        [attr.aria-label]="'Supprimer ' + todo.name"
+      >
+        🗑
+      </button>
+    </li>
+  }
+</ul>

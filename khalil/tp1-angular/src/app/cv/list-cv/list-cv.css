@@ -1,0 +1,6 @@
+.row-even {
+  --bs-list-group-bg: var(--bs-secondary-bg);
+}
+.row-odd {
+  --bs-list-group-bg: var(--bs-primary-bg-subtle);
+}

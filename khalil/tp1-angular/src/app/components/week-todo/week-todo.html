@@ -1,0 +1,9 @@
+<h2>Week todo</h2>
+<div class="row">
+  @for (day of days; track day) {
+    <div class="col-md">
+      <h3 class="h6">{{ day }}</h3>
+      <app-todo-manager />
+    </div>
+  }
+</div>

@@ -1,0 +1,13 @@
+<div class="color-box" [style.backgroundColor]="color()">
+  Couleur actuelle : {{ color() }}
+</div>
+
+<input
+  #colorInput
+  (input)="changeColor(colorInput.value)"
+  type="text"
+  class="form-control mb-2"
+  placeholder="Tapez une couleur (ex: blue)"
+/>
+
+<button (click)="reset(); colorInput.value = ''" class="btn btn-danger">Reset</button>
