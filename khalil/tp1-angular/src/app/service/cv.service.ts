@@ -31,6 +31,24 @@ export class CvService {
       job: 'nothing',
       path: 'images/cv.svg',
     },
+    {
+      id: 4,
+      name: 'ben ali',
+      firstname: 'amine',
+      age: 25,
+      cin: '22334455',
+      job: 'developer',
+      path: 'images/avatar.svg',
+    },
+    {
+      id: 5,
+      name: 'trabelsi',
+      firstname: 'sarra',
+      age: 28,
+      cin: '33445566',
+      job: 'designer',
+      path: 'images/cv.svg',
+    },
   ];
 
   getCvs(): Cv[] {

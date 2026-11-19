@@ -1,5 +1,6 @@
 import { NgOptimizedImage } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { Cv } from '../../model/cv';
 import { EmbaucheService } from '../../service/embauche.service';
 
 @Component({
@@ -9,5 +10,10 @@ import { EmbaucheService } from '../../service/embauche.service';
   templateUrl: './embauche-list.html',
 })
 export class EmbaucheList {
-  embauches = inject(EmbaucheService).getEmbauches();
+  private embaucheService = inject(EmbaucheService);
+  embauches = this.embaucheService.getEmbauches();
+
+  licencier(cv: Cv) {
+    this.embaucheService.licencier(cv);
+  }
 }

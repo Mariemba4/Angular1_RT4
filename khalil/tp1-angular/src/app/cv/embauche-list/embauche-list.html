@@ -6,6 +6,14 @@
         <div class="d-flex align-items-center gap-2">
           <img [ngSrc]="cv.path" width="60" height="60" class="rounded-circle" alt="" />
           <span>{{ cv.firstname }} {{ cv.name }}</span>
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-danger"
+            (click)="licencier(cv)"
+            [attr.aria-label]="'Licencier ' + cv.firstname + ' ' + cv.name"
+          >
+            Licencier
+          </button>
         </div>
       }
     </div>

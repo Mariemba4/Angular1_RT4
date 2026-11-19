@@ -1,8 +1,9 @@
+import { NgStyle } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  imports: [FormsModule],
+  imports: [FormsModule, NgStyle],
   selector: 'app-mini-word',
   styleUrl: './mini-word.css',
   templateUrl: './mini-word.html',
