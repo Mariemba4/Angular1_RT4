@@ -3,7 +3,7 @@
     <app-item-cv
       [cv]="cv"
       [class]="{ 'row-even': $even, 'row-odd': $odd }"
-      (click)="selectCv.emit(cv)"
+      (selectCv)="onSelectCv($event)"
     />
   } @empty {
     <p>Aucun CV inscrit</p>

@@ -14,4 +14,8 @@ import { ListCv } from '../list-cv/list-cv';
 export class CvTech {
   cvs = inject(CvService).getCvs();
   selectedCv = signal<Cv | null>(null);
+
+  onSelectCv(cv: Cv) {
+    this.selectedCv.set(cv);
+  }
 }

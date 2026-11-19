@@ -11,4 +11,8 @@ import { ItemCv } from '../item-cv/item-cv';
 export class ListCv {
   cvs = input.required<Cv[]>();
   selectCv = output<Cv>();
+
+  onSelectCv(cv: Cv) {
+    this.selectCv.emit(cv);
+  }
 }

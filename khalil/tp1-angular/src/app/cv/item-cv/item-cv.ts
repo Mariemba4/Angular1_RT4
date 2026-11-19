@@ -1,5 +1,5 @@
 import { NgOptimizedImage } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { Cv } from '../../model/cv';
 
 @Component({
@@ -10,4 +10,9 @@ import { Cv } from '../../model/cv';
 })
 export class ItemCv {
   cv = input.required<Cv>();
+  selectCv = output<Cv>();
+
+  onClick() {
+    this.selectCv.emit(this.cv());
+  }
 }
