@@ -1,14 +1,39 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
   <div class="container-fluid">
-    <a class="navbar-brand" routerLink="">CvTech</a>
-    <div class="navbar-nav">
-      <a class="nav-link" routerLink="color" routerLinkActive="active text-primary">Color</a>
-      <a class="nav-link" routerLink="ttc" routerLinkActive="active text-primary">TTC</a>
-      <a class="nav-link" routerLink="cv" routerLinkActive="active text-primary">Cv</a>
-      <a class="nav-link" routerLink="word" routerLinkActive="active text-primary">Mini word</a>
-      <a class="nav-link" routerLink="rgb" routerLinkActive="active text-primary">Rgb</a>
-      <a class="nav-link" routerLink="todo" routerLinkActive="active text-primary">Todo</a>
-      <a class="nav-link" routerLink="week" routerLinkActive="active text-primary">Week todo</a>
+    <a class="navbar-brand fw-bold text-primary" routerLink="/cv">CvTech</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="navbar-nav me-auto">
+        <a class="nav-link" routerLink="/cv" routerLinkActive="active text-primary fw-semibold">Cv</a>
+        <a class="nav-link" routerLink="/color" routerLinkActive="active text-primary fw-semibold">Color</a>
+        <a class="nav-link" routerLink="/ttc" routerLinkActive="active text-primary fw-semibold">TTC</a>
+        <a class="nav-link" routerLink="/word" routerLinkActive="active text-primary fw-semibold">Mini word</a>
+        <a class="nav-link" routerLink="/rgb" routerLinkActive="active text-primary fw-semibold">Rgb</a>
+        <a class="nav-link" routerLink="/todo" routerLinkActive="active text-primary fw-semibold">Todo</a>
+        <a class="nav-link" routerLink="/week" routerLinkActive="active text-primary fw-semibold">Week todo</a>
+      </div>
+      <div class="navbar-nav align-items-center">
+        @if (authService.isLoggedIn()) {
+          <span class="navbar-text me-3 text-success fw-semibold">● Connecté</span>
+          <button type="button" class="btn btn-sm btn-outline-danger" (click)="logout()">
+            Déconnexion
+          </button>
+        } @else {
+          <a class="nav-link" routerLink="/login" routerLinkActive="active text-primary fw-semibold">
+            Login
+          </a>
+        }
+      </div>
     </div>
   </div>
 </nav>
