@@ -1,8 +1,8 @@
 import { NgOptimizedImage } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
 import { APP_CONST } from '../../config/const.config';
-import { Cv } from '../../model/cv';
-import { EmbaucheService } from '../../service/embauche.service';
+import { Cv } from '../model/cv';
+import { EmbaucheService } from '../service/embauche.service';
 import { ToastService } from '../../service/toast.service';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
-import { Cv } from '../../model/cv';
-import { CvService } from '../../service/cv.service';
+import { Cv } from '../model/cv';
+import { CvService } from '../service/cv.service';
 import { DetailCv } from '../detail-cv/detail-cv';
 import { EmbaucheList } from '../embauche-list/embauche-list';
 import { ListCv } from '../list-cv/list-cv';

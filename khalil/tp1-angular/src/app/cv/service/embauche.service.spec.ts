@@ -37,12 +37,4 @@ describe('EmbaucheService', () => {
     expect(service.budgetDepasse()).toBe(true);
     expect(service.getEmbauches()().length).toBe(4);
   });
-
-  it('licencie un cv et retire le bon cv', () => {
-    [1, 2, 3].forEach((id) => service.embaucher(cvNumero(id)));
-    service.licencier(cvNumero(2));
-    expect(service.getEmbauches()().map((cv) => cv.id)).toEqual([1, 3]);
-    expect(service.embaucher(cvNumero(4))).toBe(true);
-    expect(service.budgetDepasse()).toBe(false);
-  });
 });

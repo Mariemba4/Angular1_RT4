@@ -1,21 +1,6 @@
 @if (embauches().length) {
   <section class="border border-info rounded p-3 mt-3" aria-labelledby="embauches-title">
     <h2 id="embauches-title" class="h6">Liste des cv pré embauchés :</h2>
-    <div class="d-flex flex-wrap gap-3">
-      @for (cv of embauches(); track cv.id) {
-        <div class="d-flex align-items-center gap-2">
-          <img [ngSrc]="cv.path" width="60" height="60" class="rounded-circle" alt="" />
-          <span>{{ cv.firstname }} {{ cv.name }}</span>
-          <button
-            type="button"
-            class="btn btn-sm btn-outline-danger"
-            (click)="licencier(cv)"
-            [attr.aria-label]="'Licencier ' + cv.firstname + ' ' + cv.name"
-          >
-            Licencier
-          </button>
-        </div>
-      }
-    </div>
+    <app-list-cv [cvs]="embauches()" (selectCv)="onSelectCv($event)" />
   </section>
 }

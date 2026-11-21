@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Todo } from '../../model/todo';
-import { TodoService } from '../../service/todo.service';
+import { Todo } from '../model/todo';
+import { TodoService } from '../service/todo.service';
 
 @Component({
   imports: [FormsModule],

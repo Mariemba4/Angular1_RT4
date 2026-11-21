@@ -1,19 +1,19 @@
-import { NgOptimizedImage } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { Cv } from '../../model/cv';
-import { EmbaucheService } from '../../service/embauche.service';
+import { Component, inject, output } from '@angular/core';
+import { Cv } from '../model/cv';
+import { EmbaucheService } from '../service/embauche.service';
+import { ListCv } from '../list-cv/list-cv';
 
 @Component({
-  imports: [NgOptimizedImage],
+  imports: [ListCv],
   selector: 'app-embauche-list',
   styleUrl: './embauche-list.css',
   templateUrl: './embauche-list.html',
 })
 export class EmbaucheList {
-  private embaucheService = inject(EmbaucheService);
-  embauches = this.embaucheService.getEmbauches();
+  embauches = inject(EmbaucheService).getEmbauches();
+  selectCv = output<Cv>();
 
-  licencier(cv: Cv) {
-    this.embaucheService.licencier(cv);
+  onSelectCv(cv: Cv) {
+    this.selectCv.emit(cv);
   }
 }

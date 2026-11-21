@@ -1,26 +1,24 @@
-import { Service, signal } from '@angular/core';
+import { inject, Service } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 
 export type ToastType = 'success' | 'warning' | 'danger';
 
-export interface ToastMessage {
-  id: number;
-  text: string;
-  type: ToastType;
-}
-
 @Service()
 export class ToastService {
-  private nextId = 0;
-  private messages = signal<ToastMessage[]>([]);
-  readonly toasts = this.messages.asReadonly();
+  private toastr = inject(ToastrService);
 
   show(text: string, type: ToastType, duration = 3000) {
-    const id = this.nextId++;
-    this.messages.update((list) => [...list, { id, text, type }]);
-    setTimeout(() => this.dismiss(id), duration);
-  }
-
-  dismiss(id: number) {
-    this.messages.update((list) => list.filter((toast) => toast.id !== id));
+    const options = { timeOut: duration };
+    switch (type) {
+      case 'success':
+        this.toastr.success(text, undefined, options);
+        break;
+      case 'warning':
+        this.toastr.warning(text, undefined, options);
+        break;
+      case 'danger':
+        this.toastr.error(text, undefined, options);
+        break;
+    }
   }
 }

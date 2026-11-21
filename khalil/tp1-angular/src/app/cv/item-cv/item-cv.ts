@@ -1,6 +1,6 @@
 import { NgOptimizedImage } from '@angular/common';
 import { Component, input, output } from '@angular/core';
-import { Cv } from '../../model/cv';
+import { Cv } from '../model/cv';
 
 @Component({
   imports: [NgOptimizedImage],

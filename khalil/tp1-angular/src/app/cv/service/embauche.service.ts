@@ -1,5 +1,5 @@
 import { computed, Service, signal } from '@angular/core';
-import { APP_CONST } from '../config/const.config';
+import { APP_CONST } from '../../config/const.config';
 import { Cv } from '../model/cv';
 
 @Service()
@@ -18,9 +18,5 @@ export class EmbaucheService {
     }
     this.embauches.update((list) => [...list, cv]);
     return true;
-  }
-
-  licencier(cv: Cv): void {
-    this.embauches.update((list) => list.filter((embauche) => embauche.id !== cv.id));
   }
 }

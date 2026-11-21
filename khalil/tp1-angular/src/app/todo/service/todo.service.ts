@@ -1,6 +1,6 @@
 import { inject, Service, signal } from '@angular/core';
 import { Todo } from '../model/todo';
-import { LoggerService } from './logger.service';
+import { LoggerService } from '../../service/logger.service';
 
 @Service()
 export class TodoService {
