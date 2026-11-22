@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-md-5">
-    <app-list-cv [cvs]="cvs" (selectCv)="onSelectCv($event)" />
+    <app-list-cv [cvs]="cvs()" (selectCv)="onSelectCv($event)" />
   </div>
   <div class="col-md-7">
     @if (selectedCv(); as cv) {

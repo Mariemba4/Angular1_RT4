@@ -1,9 +1,14 @@
-import { Service } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject, Service } from '@angular/core';
+import { API } from '../../config/api.config';
 import { Cv } from '../model/cv';
+import { map, Observable } from 'rxjs';
 
 @Service()
 export class CvService {
-  private readonly cvs: Cv[] = [
+  private http = inject(HttpClient);
+
+  private readonly fakeCvs: Cv[] = [
     {
       id: 1,
       name: 'khalil',
@@ -51,7 +56,24 @@ export class CvService {
     },
   ];
 
-  getCvs(): Cv[] {
-    return this.cvs;
+  getCvs(): Observable<Cv[]> {
+    return this.http.get<Cv[]>(API.cv).pipe(map((cvs) => cvs.map((cv) => this.corrigerPath(cv))));
+  }
+
+  getCvById(id: number): Observable<Cv> {
+    return this.http.get<Cv>(API.cv + id).pipe(map((cv) => this.corrigerPath(cv)));
+  }
+
+  /** Si l'API ne donne pas une vraie adresse d'image (http...), on met l'avatar par défaut. */
+  private corrigerPath(cv: Cv): Cv {
+    return cv.path?.startsWith('http') ? cv : { ...cv, path: 'images/avatar.svg' };
+  }
+
+  getFakeCvs(): Cv[] {
+    return this.fakeCvs;
+  }
+
+  getFakeCvById(id: number): Cv | undefined {
+    return this.fakeCvs.find((cv) => cv.id === id);
   }
 }
