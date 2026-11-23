@@ -1,11 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { email, form, FormField, minLength, required } from '@angular/forms/signals';
 import { Router } from '@angular/router';
+import { Credentials } from '../model/credentials';
 import { AuthService } from '../service/auth.service';
 import { ToastService } from '../../service/toast.service';
 
 @Component({
-  imports: [FormsModule],
+  imports: [FormField],
   selector: 'app-login',
   styleUrl: './login.css',
   templateUrl: './login.html',
@@ -15,15 +16,22 @@ export class Login {
   private router = inject(Router);
   private toastService = inject(ToastService);
 
-  email = signal('');
-  password = signal('');
+  loginModel = signal<Credentials>({ email: '', password: '' });
 
-  onSubmit(): void {
-    if (!this.email() || !this.password()) {
-      this.toastService.show('Veuillez renseigner tous les champs', 'warning');
+  loginForm = form(this.loginModel, (path) => {
+    required(path.email, { message: "L'email est obligatoire" });
+    email(path.email, { message: "L'email n'est pas valide" });
+    required(path.password);
+    minLength(path.password, 4);
+  });
+
+  onSubmit(event: Event): void {
+    event.preventDefault();
+    if (this.loginForm().invalid()) {
+      this.toastService.show('Veuillez remplir correctement tous les champs', 'warning');
       return;
     }
-    this.authService.login({ email: this.email(), password: this.password() });
+    this.authService.login(this.loginModel());
     this.toastService.show('Connexion réussie !', 'success');
     this.router.navigate(['/cv']);
   }
