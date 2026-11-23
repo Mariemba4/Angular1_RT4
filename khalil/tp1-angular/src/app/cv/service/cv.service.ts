@@ -77,7 +77,7 @@ export class CvService {
     return this.fakeCvs.find((cv) => cv.id === id);
   }
 
-  /*  Supprime un cv via l'API */
+  /* Supprime un cv via l'API : le token est ajouté par authInterceptor */
   deleteCv(id: number): Observable<unknown> {
     return this.http.delete(API.cv + id);
   }

@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Credentials } from '../model/credentials';
 import { AuthService } from '../service/auth.service';
 import { ToastService } from '../../service/toast.service';
-import { blacklistValidator } from '../validators/blacklist.validator';
+import { blacklistValidator } from './validators/blacklist.validator';
 
 @Component({
   imports: [FormField],
@@ -33,8 +33,12 @@ export class Login {
       this.toastService.show('Veuillez remplir correctement tous les champs', 'warning');
       return;
     }
-    this.authService.login(this.loginModel());
-    this.toastService.show('Connexion réussie !', 'success');
-    this.router.navigate(['/cv']);
+    this.authService.login(this.loginModel()).subscribe({
+      next: () => {
+        this.toastService.show('Connexion réussie !', 'success');
+        this.router.navigate(['/cv']);
+      },
+      error: () => this.toastService.show('Email ou mot de passe incorrect', 'danger'),
+    });
   }
 }

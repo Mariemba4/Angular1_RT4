@@ -42,7 +42,10 @@ describe('DetailsCvPage', () => {
     component = TestBed.createComponent(DetailsCvPage).componentInstance;
   };
 
-  afterEach(() => httpMock.verify());
+  afterEach(() => {
+    httpMock.verify();
+    localStorage.clear();
+  });
 
   it("charge le cv de l'id de la route", () => {
     creerPage(99);
@@ -50,15 +53,27 @@ describe('DetailsCvPage', () => {
     expect(component.cv()).toEqual(cvApi);
   });
 
-  it('supprime le cv puis renvoie vers la liste', () => {
+  const expectDelete = (id: number) =>
+    httpMock.expectOne((req) => req.method === 'DELETE' && req.url === API.cv + id);
+
+  it('supprime le cv via l\'API puis renvoie vers la liste', () => {
     creerPage(99);
     httpMock.expectOne(API.cv + 99).flush(cvApi);
 
     component.deleteCv();
-    const req = httpMock.expectOne(API.cv + 99);
-    expect(req.request.method).toBe('DELETE');
-    req.flush({});
+    expectDelete(99).flush({});
     expect(router.navigate).toHaveBeenCalledWith(['/cv']);
+  });
+
+  it("renvoie vers le login si l'API refuse la suppression (401)", () => {
+    localStorage.setItem('token', 'token-expire');
+    creerPage(99);
+    httpMock.expectOne(API.cv + 99).flush(cvApi);
+
+    component.deleteCv();
+    expectDelete(99).flush('refus', { status: 401, statusText: 'Unauthorized' });
+    expect(localStorage.getItem('token')).toBeNull();
+    expect(router.navigate).toHaveBeenCalledWith(['/login']);
   });
 
   it("supprime le cv fictif si l'API est en erreur", () => {
@@ -67,7 +82,7 @@ describe('DetailsCvPage', () => {
     expect(component.cv()?.name).toBe('khalil');
 
     component.deleteCv();
-    httpMock.expectOne(API.cv + 1).flush('erreur', { status: 401, statusText: 'Unauthorized' });
+    expectDelete(1).flush('erreur', { status: 500, statusText: 'Server Error' });
     expect(router.navigate).toHaveBeenCalledWith(['/cv']);
   });
 });

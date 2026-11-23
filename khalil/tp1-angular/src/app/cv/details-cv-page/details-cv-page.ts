@@ -1,10 +1,11 @@
 import { NgOptimizedImage } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../auth/service/auth.service';
 import { Cv } from '../model/cv';
 import { CvService } from '../service/cv.service';
 import { ToastService } from '../../service/toast.service';
-
 
 @Component({
   imports: [NgOptimizedImage, RouterLink],
@@ -17,6 +18,7 @@ export class DetailsCvPage {
   private router = inject(Router);
   private cvService = inject(CvService);
   private toastService = inject(ToastService);
+  private authService = inject(AuthService);
 
   cv = signal<Cv | null>(null);
 
@@ -46,7 +48,14 @@ export class DetailsCvPage {
         this.toastService.show(`${nom} a été supprimé avec succès`, 'success');
         this.router.navigate(['/cv']);
       },
-      error: () => {
+      error: (erreur: HttpErrorResponse) => {
+        if (erreur.status === 401) {
+          // Pas de token ou token expiré : on oublie l'ancien token et on renvoie vers le login
+          this.authService.logout();
+          this.toastService.show('Vous devez être connecté pour supprimer un cv', 'warning');
+          this.router.navigate(['/login']);
+          return;
+        }
         if (this.cvService.deleteFakeCv(cv.id)) {
           this.toastService.show(
             `Problème d'accès à l'API, ${nom} a été supprimé de la liste fictive`,

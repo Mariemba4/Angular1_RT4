@@ -1,6 +1,9 @@
+import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter, Router } from '@angular/router';
 import { Login } from './login';
+import { API } from '../../config/api.config';
 import { AuthService } from '../service/auth.service';
 import { ToastService } from '../../service/toast.service';
 
@@ -16,7 +19,8 @@ describe('Login Component', () => {
       imports: [Login],
       providers: [
         provideRouter([]),
-        AuthService,
+        provideHttpClient(),
+        provideHttpClientTesting(),
         {
           provide: ToastService,
           useValue: { show: () => {} },
@@ -39,13 +43,34 @@ describe('Login Component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('connecte l\'utilisateur et navigue vers /cv lors de la soumission', () => {
-    const navigateSpy = vi.spyOn(router, 'navigate');
-    component.loginModel.set({ email: 'test@insat.tn', password: 'password123' });
+  it("envoie les identifiants à l'API, garde le token et navigue vers /cv", () => {
+    const navigateSpy = vi.spyOn(router, 'navigate').mockResolvedValue(true);
+    const identifiants = { email: 'test@insat.tn', password: 'password123' };
+    component.loginModel.set(identifiants);
     component.onSubmit(new Event('submit'));
 
-    expect(authService.isAuthenticated()).toBe(true);
+    const req = TestBed.inject(HttpTestingController).expectOne(API.login);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.body).toEqual(identifiants);
+    req.flush({ id: 'token-api', ttl: 1209600, userId: 1 });
+
+    expect(localStorage.getItem('token')).toBe('token-api');
+    expect(authService.isLoggedIn()).toBe(true);
     expect(navigateSpy).toHaveBeenCalledWith(['/cv']);
+  });
+
+  it("reste déconnecté et ne navigue pas si l'API refuse les identifiants", () => {
+    const navigateSpy = vi.spyOn(router, 'navigate');
+    component.loginModel.set({ email: 'test@insat.tn', password: 'mauvais' });
+    component.onSubmit(new Event('submit'));
+
+    TestBed.inject(HttpTestingController)
+      .expectOne(API.login)
+      .flush({ error: { code: 'LOGIN_FAILED' } }, { status: 401, statusText: 'Unauthorized' });
+
+    expect(localStorage.getItem('token')).toBeNull();
+    expect(authService.isLoggedIn()).toBe(false);
+    expect(navigateSpy).not.toHaveBeenCalled();
   });
 
   async function saisir(id: string, valeur: string, quitter = true) {

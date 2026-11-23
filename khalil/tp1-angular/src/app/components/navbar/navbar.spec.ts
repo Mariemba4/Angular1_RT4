@@ -1,6 +1,9 @@
+import { provideHttpClient } from '@angular/common/http';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 import { Navbar } from './navbar';
+import { API } from '../../config/api.config';
 import { AuthService } from '../../auth/service/auth.service';
 
 describe('Navbar', () => {
@@ -12,7 +15,7 @@ describe('Navbar', () => {
     localStorage.clear();
     await TestBed.configureTestingModule({
       imports: [Navbar],
-      providers: [provideRouter([]), AuthService],
+      providers: [provideRouter([]), provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(Navbar);
@@ -36,7 +39,8 @@ describe('Navbar', () => {
   });
 
   it('affiche Déconnexion quand l\'utilisateur est connecté', () => {
-    authService.login();
+    authService.login({ email: 'test@insat.tn', password: 'abcd' }).subscribe();
+    TestBed.inject(HttpTestingController).expectOne(API.login).flush({ id: 'token-test', ttl: 1, userId: 1 });
     fixture.detectChanges();
     const el = fixture.nativeElement as HTMLElement;
     expect(el.textContent).toContain('Déconnexion');
