@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Credentials } from '../model/credentials';
 import { AuthService } from '../service/auth.service';
 import { ToastService } from '../../service/toast.service';
+import { blacklistValidator } from '../validators/blacklist.validator';
 
 @Component({
   imports: [FormField],
@@ -21,6 +22,7 @@ export class Login {
   loginForm = form(this.loginModel, (path) => {
     required(path.email, { message: "L'email est obligatoire" });
     email(path.email, { message: "L'email n'est pas valide" });
+    blacklistValidator(path.email);
     required(path.password);
     minLength(path.password, 4);
   });
