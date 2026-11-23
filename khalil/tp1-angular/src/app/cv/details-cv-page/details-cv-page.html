@@ -1,0 +1,25 @@
+@if (cv(); as cv) {
+  <div class="card text-center mx-auto details-card">
+    <div class="card-header bg-primary py-4">
+      <img
+        [ngSrc]="cv.path"
+        width="120"
+        height="120"
+        class="rounded-circle border border-3 border-white"
+        alt=""
+      />
+    </div>
+    <div class="card-body">
+      <h1 class="h4 card-title">{{ cv.firstname }} {{ cv.name }}</h1>
+      <p class="text-muted">{{ cv.job }}</p>
+      <p class="card-text">Age : {{ cv.age }} ans</p>
+      <p class="card-text">CIN : {{ cv.cin }}</p>
+    </div>
+    <div class="card-footer d-flex justify-content-center gap-2">
+      <a class="btn btn-secondary" routerLink="/cv">Retour à la liste</a>
+      <button type="button" class="btn btn-danger" (click)="deleteCv()">Delete</button>
+    </div>
+  </div>
+} @else {
+  <p class="text-center text-muted">Chargement du cv...</p>
+}

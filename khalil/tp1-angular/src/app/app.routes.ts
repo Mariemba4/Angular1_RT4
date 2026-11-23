@@ -6,13 +6,20 @@ import { TodoManager } from './todo/todo-manager/todo-manager';
 import { Ttc } from './components/ttc/ttc';
 import { WeekTodo } from './todo/week-todo/week-todo';
 import { CvTech } from './cv/cv-tech/cv-tech';
+import { DetailsCvPage } from './cv/details-cv-page/details-cv-page';
 import { Login } from './auth/login/login';
 import { loginGuard } from './auth/guards/login.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'cv', pathMatch: 'full' },
   { path: 'login', component: Login, canActivate: [loginGuard] },
-  { path: 'cv', component: CvTech },
+  {
+    path: 'cv',
+    children: [
+      { path: '', component: CvTech },
+      { path: ':id', component: DetailsCvPage },
+    ],
+  },
   { path: 'color', component: Color },
   { path: 'ttc', component: Ttc },
   { path: 'word', component: MiniWord },

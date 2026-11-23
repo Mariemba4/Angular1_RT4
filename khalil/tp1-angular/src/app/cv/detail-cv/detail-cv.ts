@@ -1,12 +1,13 @@
 import { NgOptimizedImage } from '@angular/common';
 import { Component, inject, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { APP_CONST } from '../../config/const.config';
 import { Cv } from '../model/cv';
 import { EmbaucheService } from '../service/embauche.service';
 import { ToastService } from '../../service/toast.service';
 
 @Component({
-  imports: [NgOptimizedImage],
+  imports: [NgOptimizedImage, RouterLink],
   selector: 'app-detail-cv',
   styleUrl: './detail-cv.css',
   templateUrl: './detail-cv.html',

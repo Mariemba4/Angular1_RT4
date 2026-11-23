@@ -13,6 +13,9 @@
     <p class="text-muted">{{ cv().job }}</p>
     <p class="card-text">Age : {{ cv().age }} ans</p>
     <p class="card-text">CIN : {{ cv().cin }}</p>
-    <button type="button" class="btn btn-primary" (click)="embaucher()">Embaucher</button>
+    <div class="d-flex justify-content-center gap-2">
+      <button type="button" class="btn btn-primary" (click)="embaucher()">Embaucher</button>
+      <a class="btn btn-dark" [routerLink]="['/cv', cv().id]">Détails</a>
+    </div>
   </div>
 </div>

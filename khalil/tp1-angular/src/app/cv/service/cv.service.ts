@@ -8,7 +8,7 @@ import { map, Observable } from 'rxjs';
 export class CvService {
   private http = inject(HttpClient);
 
-  private readonly fakeCvs: Cv[] = [
+  private fakeCvs: Cv[] = [
     {
       id: 1,
       name: 'khalil',
@@ -75,5 +75,17 @@ export class CvService {
 
   getFakeCvById(id: number): Cv | undefined {
     return this.fakeCvs.find((cv) => cv.id === id);
+  }
+
+  /*  Supprime un cv via l'API */
+  deleteCv(id: number): Observable<unknown> {
+    return this.http.delete(API.cv + id);
+  }
+
+  /* Supprime un cv de la liste fictive */
+  deleteFakeCv(id: number): boolean {
+    const avant = this.fakeCvs.length;
+    this.fakeCvs = this.fakeCvs.filter((cv) => cv.id !== id);
+    return this.fakeCvs.length < avant;
   }
 }

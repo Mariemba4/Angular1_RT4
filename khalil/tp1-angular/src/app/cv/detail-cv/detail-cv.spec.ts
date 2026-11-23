@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 import { provideToastr } from 'ngx-toastr';
 import { DetailCv } from './detail-cv';
 
@@ -9,7 +10,7 @@ describe('DetailCv', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [DetailCv],
-      providers: [provideToastr()],
+      providers: [provideRouter([]), provideToastr()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DetailCv);
