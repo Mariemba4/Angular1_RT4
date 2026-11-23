@@ -17,7 +17,19 @@
                 class="form-control"
                 placeholder="nom@exemple.com"
                 required
+                email
+                #emailField="ngModel"
+                [class.is-invalid]="emailField.invalid && emailField.touched"
               />
+              @if (emailField.invalid && emailField.touched) {
+                <div class="text-danger small mt-1">
+                  @if (emailField.hasError('required')) {
+                    L'email est obligatoire
+                  } @else {
+                    L'email n'est pas valide
+                  }
+                </div>
+              }
             </div>
             <div class="mb-4">
               <label for="password" class="form-label">Mot de passe</label>

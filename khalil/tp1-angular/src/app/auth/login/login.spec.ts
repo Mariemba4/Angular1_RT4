@@ -48,4 +48,28 @@ describe('Login Component', () => {
     expect(authService.isAuthenticated()).toBe(true);
     expect(navigateSpy).toHaveBeenCalledWith(['/cv']);
   });
+
+  async function saisirEmail(valeur: string) {
+    await fixture.whenStable();
+    const input: HTMLInputElement = fixture.nativeElement.querySelector('#email');
+    input.value = valeur;
+    input.dispatchEvent(new Event('input'));
+    input.dispatchEvent(new Event('blur'));
+    await fixture.whenStable();
+    fixture.detectChanges();
+    return fixture.nativeElement.querySelector('.text-danger')?.textContent.trim();
+  }
+
+  it("affiche un message sous l'email s'il est vide", async () => {
+    expect(await saisirEmail('')).toBe("L'email est obligatoire");
+  });
+
+  it("affiche un message sous l'email s'il est invalide et désactive le bouton", async () => {
+    expect(await saisirEmail('abc')).toBe("L'email n'est pas valide");
+    expect(fixture.nativeElement.querySelector('button').disabled).toBe(true);
+  });
+
+  it("n'affiche aucun message si l'email est valide", async () => {
+    expect(await saisirEmail('test@insat.tn')).toBeUndefined();
+  });
 });

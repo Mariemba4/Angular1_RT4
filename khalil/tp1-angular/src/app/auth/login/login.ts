@@ -15,8 +15,8 @@ export class Login {
   private router = inject(Router);
   private toastService = inject(ToastService);
 
-  email = signal('admin@gmail.com');
-  password = signal('admin123');
+  email = signal('');
+  password = signal('');
 
   onSubmit(): void {
     if (!this.email() || !this.password()) {
